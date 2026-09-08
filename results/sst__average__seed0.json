@@ -1,0 +1,41 @@
+{
+  "dataset": "sst",
+  "encoder": "average",
+  "seed": 0,
+  "vocab_size": 6811,
+  "corpus": {
+    "name": "sst",
+    "train": 6568,
+    "test": 1749,
+    "classes": 2,
+    "source": "https://nlp.stanford.edu/~socherr/stanfordSentimentTreebank.zip",
+    "notes": "neutral scores in (0.4, 0.6] dropped; positive if score > 0.6. KNOWN GAP: this yields 3122/3446 train and 873/876 test, against the 3034/3321 and 863/862 of the paper's Table 1, about 3 per cent more sentences in every cell. The likely cause is sentence-to-phrase matching in dictionary.txt, where a few sentences fail to match on escaping and are dropped; the paper does not say how many it lost. The gap is recorded rather than closed, because tuning the preprocessing until the counts match would be fitting the pipeline to the target and would make the reproduction meaningless."
+  },
+  "performance": {
+    "accuracy": 0.7695826186392224,
+    "f1": 0.781334780249593,
+    "n": 1749
+  },
+  "seconds": 59.5,
+  "config": {
+    "epochs": 8,
+    "batch_size": 32,
+    "lr": 0.001,
+    "max_len": 40,
+    "min_count": 2,
+    "correlation_sample": 300
+  },
+  "tau_gradient": {
+    "mean": 0.6931520957388864,
+    "std": 0.1323566395074597,
+    "sig_frac": 0.953125,
+    "n": 320
+  },
+  "tau_loo": {
+    "mean": 0.6758260209381619,
+    "std": 0.11933524098164904,
+    "sig_frac": 0.9341692789968652,
+    "n": 319
+  },
+  "instances_measured": 320
+}

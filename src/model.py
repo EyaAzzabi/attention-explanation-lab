@@ -175,6 +175,10 @@ ENCODERS = {
     "bilstm": BiLSTMEncoder,
     "transformer": TransformerEncoder,
     "transformer_nores": lambda: TransformerEncoder(residual=False),
+    # One layer without residuals: the minimal architecture in which the ablation
+    # can still converge. The two-layer version reached 0.501 accuracy on a balanced
+    # binary task, which is chance, so it measured nothing.
+    "transformer_l1_nores": lambda: TransformerEncoder(layers=1, residual=False),
     "transformer_l1": lambda: TransformerEncoder(layers=1),
     "transformer_l4": lambda: TransformerEncoder(layers=4),
 }
@@ -186,7 +190,8 @@ CONTEXTUALISATION_ORDER = ["average", "cnn", "bilstm", "transformer"]
 
 #: The residual-stream ablations. Kept out of CONTEXTUALISATION_ORDER because they
 #: are not points on the contextualisation axis; they are controls on one encoder.
-ABLATIONS = ["transformer_l1", "transformer_l4", "transformer_nores"]
+ABLATIONS = ["transformer_l1", "transformer_l4", "transformer_nores",
+             "transformer_l1_nores"]
 
 
 # --------------------------------------------------------------------------- #

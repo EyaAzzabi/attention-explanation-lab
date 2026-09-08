@@ -1,0 +1,137 @@
+### 1/3 ablations residuelles sur 20news
+
+== 20news / transformer_l1 / seed 0
+  epoch 1/6  loss 0.8129
+  epoch 2/6  loss 0.5863
+  epoch 3/6  loss 0.4164
+  epoch 4/6  loss 0.2238
+  epoch 5/6  loss 0.1729
+  epoch 6/6  loss 0.0846
+  acc 0.748  f1 0.766  tau_g 0.325 +/- 0.134  -> 20news__transformer_l1__seed0.json
+
+== 20news / transformer_l1 / seed 1
+  epoch 1/6  loss 0.7639
+  epoch 2/6  loss 0.4817
+  epoch 3/6  loss 0.3308
+  epoch 4/6  loss 0.1801
+  epoch 5/6  loss 0.1381
+  epoch 6/6  loss 0.1018
+  acc 0.735  f1 0.752  tau_g 0.188 +/- 0.147  -> 20news__transformer_l1__seed1.json
+
+== 20news / transformer_l1 / seed 2
+  epoch 1/6  loss 0.8208
+  epoch 2/6  loss 0.5546
+  epoch 3/6  loss 0.3473
+  epoch 4/6  loss 0.1925
+  epoch 5/6  loss 0.1125
+  epoch 6/6  loss 0.0807
+  acc 0.758  f1 0.725  tau_g 0.369 +/- 0.160  -> 20news__transformer_l1__seed2.json
+
+== 20news / transformer_l1 / seed 3
+  epoch 1/6  loss 0.7485
+  epoch 2/6  loss 0.5326
+  epoch 3/6  loss 0.4061
+  epoch 4/6  loss 0.2692
+  epoch 5/6  loss 0.1323
+  epoch 6/6  loss 0.0772
+  acc 0.762  f1 0.751  tau_g 0.312 +/- 0.154  -> 20news__transformer_l1__seed3.json
+
+== 20news / transformer_l1 / seed 4
+  epoch 1/6  loss 0.7333
+  epoch 2/6  loss 0.5476
+  epoch 3/6  loss 0.3724
+  epoch 4/6  loss 0.2397
+  epoch 5/6  loss 0.0977
+  epoch 6/6  loss 0.0449
+  acc 0.719  f1 0.728  tau_g 0.319 +/- 0.141  -> 20news__transformer_l1__seed4.json
+
+== 20news / transformer_l4 / seed 0
+  epoch 1/6  loss 0.9261
+  epoch 2/6  loss 0.7102
+  epoch 3/6  loss 0.6906
+  epoch 4/6  loss 0.5779
+  epoch 5/6  loss 0.4270
+  epoch 6/6  loss 0.3090
+  acc 0.718  f1 0.739  tau_g 0.130 +/- 0.215  -> 20news__transformer_l4__seed0.json
+
+== 20news / transformer_l4 / seed 1
+  epoch 1/6  loss 0.8682
+  epoch 2/6  loss 0.7016
+  epoch 3/6  loss 0.6740
+  epoch 4/6  loss 0.5031
+  epoch 5/6  loss 0.3426
+  epoch 6/6  loss 0.2469
+  acc 0.718  f1 0.716  tau_g 0.173 +/- 0.201  -> 20news__transformer_l4__seed1.json
+
+== 20news / transformer_l4 / seed 2
+  epoch 1/6  loss 0.8017
+  epoch 2/6  loss 0.7013
+  epoch 3/6  loss 0.6310
+  epoch 4/6  loss 0.5066
+  epoch 5/6  loss 0.3198
+  epoch 6/6  loss 0.2121
+  acc 0.726  f1 0.720  tau_g 0.331 +/- 0.170  -> 20news__transformer_l4__seed2.json
+
+== 20news / transformer_l4 / seed 3
+  epoch 1/6  loss 0.8889
+  epoch 2/6  loss 0.6941
+  epoch 3/6  loss 0.6749
+  epoch 4/6  loss 0.6201
+  epoch 5/6  loss 0.4952
+  epoch 6/6  loss 0.3922
+  acc 0.695  f1 0.674  tau_g 0.057 +/- 0.248  -> 20news__transformer_l4__seed3.json
+
+== 20news / transformer_l4 / seed 4
+  epoch 1/6  loss 0.9129
+  epoch 2/6  loss 0.6943
+  epoch 3/6  loss 0.6798
+  epoch 4/6  loss 0.5899
+  epoch 5/6  loss 0.4640
+  epoch 6/6  loss 0.3698
+  acc 0.655  f1 0.710  tau_g 0.066 +/- 0.192  -> 20news__transformer_l4__seed4.json
+
+== 20news / transformer_nores / seed 0
+  epoch 1/6  loss 0.9311
+  epoch 2/6  loss 0.7125
+  epoch 3/6  loss 0.7129
+  epoch 4/6  loss 0.7095
+  epoch 5/6  loss 0.7064
+  epoch 6/6  loss 0.7038
+  acc 0.505  f1 0.671  tau_g nan +/- nan  -> 20news__transformer_nores__seed0.json
+
+== 20news / transformer_nores / seed 1
+  epoch 1/6  loss 0.8096
+  epoch 2/6  loss 0.7110
+  epoch 3/6  loss 0.7353
+  epoch 4/6  loss 0.7042
+  epoch 5/6  loss 0.6991
+  epoch 6/6  loss 0.7089
+  acc 0.505  f1 0.671  tau_g nan +/- nan  -> 20news__transformer_nores__seed1.json
+
+== 20news / transformer_nores / seed 2
+  epoch 1/6  loss 0.7995
+  epoch 2/6  loss 0.7194
+  epoch 3/6  loss 0.7151
+  epoch 4/6  loss 0.7021
+  epoch 5/6  loss 0.7030
+  epoch 6/6  loss 0.6984
+  acc 0.495  f1 0.000  tau_g nan +/- nan  -> 20news__transformer_nores__seed2.json
+
+== 20news / transformer_nores / seed 3
+  epoch 1/6  loss 0.8775
+  epoch 2/6  loss 0.6984
+  epoch 3/6  loss 0.6963
+  epoch 4/6  loss 0.6996
+  epoch 5/6  loss 0.7053
+  epoch 6/6  loss 0.7214
+  acc 0.495  f1 0.000  tau_g nan +/- nan  -> 20news__transformer_nores__seed3.json
+
+== 20news / transformer_nores / seed 4
+  epoch 1/6  loss 0.8873
+  epoch 2/6  loss 0.6974
+  epoch 3/6  loss 0.7008
+  epoch 4/6  loss 0.7111
+  epoch 5/6  loss 0.7102
+  epoch 6/6  loss 0.7038
+  acc 0.505  f1 0.671  tau_g nan +/- nan  -> 20news__transformer_nores__seed4.json
+### 2/3 SST, les quatre encodeurs

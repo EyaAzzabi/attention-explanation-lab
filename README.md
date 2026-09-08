@@ -148,19 +148,59 @@ Transformer, gradient gives 0.29 and leave-one-out gives 0.14, and it moves from
 the highest of the three contextualising encoders on one measure to the lowest on
 the other.
 
-### A hypothesis, offered as a hypothesis
+### A hypothesis, tested, and not supported
 
-A Transformer's residual stream keeps a direct additive path from the embedding at
-position *t* to the hidden state at position *t*. A gradient taken with respect to
-that embedding travels that path, so it stays partly aligned with whatever
-attention is doing there. Deleting the token is a different intervention: through
-self-attention it perturbs every other position at once, so the change in output is
-diffuse rather than localised at *t*. Recurrence and convolution mix less globally,
-so deletion stays more local for them and the two measures continue to agree.
+The obvious explanation is the residual stream. A Transformer keeps a direct additive
+path from the embedding at position *t* to the hidden state at position *t*, so a
+gradient taken with respect to that embedding travels that path and stays partly
+aligned with attention. Deleting the token is a different intervention: through
+self-attention it perturbs every position at once, so the change in output is diffuse
+rather than localised. Recurrence and convolution mix less globally, so deletion stays
+local for them and the two measures keep agreeing.
 
-If that is right, the divergence should shrink when the residual connections are
-removed, and grow with depth. Neither experiment is run here, and until one is this
-paragraph is a story that fits four numbers.
+That story fits the numbers. It also makes two predictions, and this repository ran
+both rather than leaving them as a paragraph.
+
+**Prediction 1: remove the residual connections and the two measures converge.**
+`nn.TransformerEncoderLayer` bakes them in, so the block was rewritten by hand with a
+switch. The result is **not a negative result, it is a failed experiment**:
+
+| | accuracy | tau_gradient | tau_loo |
+|---|---|---|---|
+| `transformer_nores`, 2 layers | **0.501** | NaN | NaN |
+
+0.501 on a balanced binary task is chance. Without the residual connections the stack
+does not converge, the predictions go constant, the importances go constant, and
+Kendall tau is undefined. The ablation measured nothing at all, in either direction.
+A single-layer control, `transformer_l1_nores`, is the minimal architecture in which
+the ablation could still converge and is the next thing to run.
+
+**Prediction 2: the gap should widen with depth.** It narrows.
+
+| | accuracy | tau_gradient | tau_loo | gap |
+|---|---|---|---|---|
+| `transformer_l1` | 0.744 | 0.302 +/- 0.061 | 0.135 +/- 0.050 | +0.167 |
+| `transformer` (2 layers) | 0.750 | 0.293 +/- 0.056 | 0.141 +/- 0.043 | +0.152 |
+| `transformer_l4` | 0.702 | 0.151 +/- 0.099 | 0.072 +/- 0.072 | +0.079 |
+
+And the four-layer model cannot carry that conclusion either: it reaches 0.702 against
+0.744 and 0.750, with a standard deviation of 0.099 on tau_gradient. Depth is
+confounded with how well the model trained, so this does not establish that depth
+narrows the gap. It only establishes that the prediction failed.
+
+**So the residual-stream explanation is not supported by anything here.** One test did
+not run and the other went the wrong way. The hypothesis is left in this README
+because the experiments that killed it are worth more than a clean story, not because
+it survived.
+
+### What does survive
+
+The gap itself is robust. Across five seeds, the three non-Transformer encoders sit
+between -0.05 and +0.05 between the two importance measures, and every Transformer
+that actually trained sits near +0.15. That holds at one layer and at two, and it is
+not an artefact of depth or of undertraining. **The Transformer is the only encoder
+here for which the choice of importance measure changes the answer.** Why, remains
+open.
 
 ## What this does not establish
 
