@@ -93,6 +93,34 @@ class BiLSTMEncoder(nn.Module):
         return out
 
 
+class _TransformerLayer(nn.Module):
+    """One pre-norm block, with the residual connections switchable.
+
+    `nn.TransformerEncoderLayer` bakes the residual connections in and offers no way
+    to remove them, which is why this is written out by hand. Turning them off is the
+    experiment: the hypothesis under test is that a Transformer's residual stream
+    keeps a direct additive path from the embedding at position t to the hidden state
+    at position t, and that the gradient travels that path while token deletion does
+    not. If that is what separates the two importance measures, removing the
+    connections should bring them back together.
+    """
+
+    def __init__(self, hidden: int, heads: int, residual: bool = True):
+        super().__init__()
+        self.attn = nn.MultiheadAttention(hidden, heads, batch_first=True, dropout=0.1)
+        self.ff = nn.Sequential(
+            nn.Linear(hidden, hidden * 2), nn.ReLU(), nn.Linear(hidden * 2, hidden))
+        self.n1, self.n2 = nn.LayerNorm(hidden), nn.LayerNorm(hidden)
+        self.residual = residual
+
+    def forward(self, x, key_padding_mask):
+        a, _ = self.attn(self.n1(x), self.n1(x), self.n1(x),
+                         key_padding_mask=key_padding_mask, need_weights=False)
+        x = x + a if self.residual else a
+        f = self.ff(self.n2(x))
+        return x + f if self.residual else f
+
+
 class TransformerEncoder(nn.Module):
     """The encoder the paper never tested, and the reason this repository exists.
 
@@ -100,16 +128,20 @@ class TransformerEncoder(nn.Module):
     explanation for the weak correlation is right, that attention over a BiLSTM state
     is not attention over a token because the state already holds the sentence, then
     this is the same problem made worse.
+
+    `residual` and `layers` exist so the residual-stream hypothesis can be tested
+    rather than asserted. Without the residual connections a deep stack trains
+    poorly, so any run with `residual=False` has to be read next to its accuracy: a
+    correlation measured on a model that did not learn says nothing.
     """
 
-    def __init__(self, hidden: int = 256, layers: int = 2, heads: int = 4):
+    def __init__(self, hidden: int = 256, layers: int = 2, heads: int = 4,
+                 residual: bool = True):
         super().__init__()
         self.inp = nn.Linear(EMBED_DIM, hidden)
-        layer = nn.TransformerEncoderLayer(
-            d_model=hidden, nhead=heads, dim_feedforward=hidden * 2,
-            batch_first=True, dropout=0.1,
-        )
-        self.enc = nn.TransformerEncoder(layer, num_layers=layers)
+        self.layers = nn.ModuleList(
+            _TransformerLayer(hidden, heads, residual) for _ in range(layers))
+        self.norm = nn.LayerNorm(hidden)
         self.hidden = hidden
         self._pos = None
 
@@ -127,20 +159,34 @@ class TransformerEncoder(nn.Module):
     def forward(self, x, mask):
         h = self.inp(x)
         h = h + self._positional(h.size(1), h.size(2), h.device)
-        return self.enc(h, src_key_padding_mask=(mask == 0))
+        pad = (mask == 0)
+        for layer in self.layers:
+            h = layer(h, pad)
+        return self.norm(h)
 
 
+#: The four encoders of the main comparison, plus the ablations that test the
+#: residual-stream hypothesis rather than leaving it as a story. `transformer_nores`
+#: removes the direct additive path the hypothesis rests on; `transformer_l4`
+#: doubles the depth, which should widen the gap if the path is what causes it.
 ENCODERS = {
     "average": AverageEncoder,
     "cnn": CNNEncoder,
     "bilstm": BiLSTMEncoder,
     "transformer": TransformerEncoder,
+    "transformer_nores": lambda: TransformerEncoder(residual=False),
+    "transformer_l1": lambda: TransformerEncoder(layers=1),
+    "transformer_l4": lambda: TransformerEncoder(layers=4),
 }
 
 #: Ordered by how much the encoder mixes information across positions. This is the
 #: x-axis of the extension's headline figure, and the order is an argument, not a
 #: convenience: the paper's own numbers say tau falls as you move right.
 CONTEXTUALISATION_ORDER = ["average", "cnn", "bilstm", "transformer"]
+
+#: The residual-stream ablations. Kept out of CONTEXTUALISATION_ORDER because they
+#: are not points on the contextualisation axis; they are controls on one encoder.
+ABLATIONS = ["transformer_l1", "transformer_l4", "transformer_nores"]
 
 
 # --------------------------------------------------------------------------- #

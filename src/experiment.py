@@ -37,7 +37,9 @@ from .importance import (
     leave_one_out_importance,
     summarise,
 )
-from .model import CONTEXTUALISATION_ORDER, AttentionClassifier, Batch, make_optimizer
+from .counterfactual import EPSILON_CLASSIFICATION, adversarial_attention, permutation_test
+from .model import (ABLATIONS, CONTEXTUALISATION_ORDER, ENCODERS, AttentionClassifier,
+                    Batch, make_optimizer)
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "results"
@@ -141,6 +143,41 @@ def measure_correlations(model, batches, max_instances: int) -> dict:
     }
 
 
+def measure_counterfactual(model, batches, max_instances: int, args) -> dict:
+    """Experiment 2 of the paper: does the prediction survive a different attention?
+
+    Two summaries per configuration. The permutation median is the paper's first
+    piece of evidence: if shuffling the weights barely moves the output, the heatmap
+    was not carrying the prediction. The epsilon-max JSD is the second and stronger
+    one: how far attention can be pushed, in Jensen-Shannon divergence, while the
+    output stays within epsilon. Its ceiling is ln(2) = 0.693, and mass near that
+    ceiling means the distribution can be replaced wholesale unnoticed.
+    """
+    perms, advs, seen = [], [], 0
+    for batch in batches:
+        if seen >= max_instances:
+            break
+        perms.append(permutation_test(model, batch, n_permutations=args.permutations))
+        advs.append(adversarial_attention(
+            model, batch, k=args.adversarial_k, epsilon=EPSILON_CLASSIFICATION,
+            steps=args.adversarial_steps))
+        seen += len(batch.labels)
+
+    perm = np.concatenate(perms) if perms else np.array([np.nan])
+    adv = np.concatenate(advs) if advs else np.array([np.nan])
+    return {
+        "permutation_tvd": {
+            "median": float(np.nanmedian(perm)), "mean": float(np.nanmean(perm)),
+            "p90": float(np.nanpercentile(perm, 90)), "n": int(len(perm)),
+        },
+        "adversarial_jsd": {
+            "mean": float(np.nanmean(adv)), "median": float(np.nanmedian(adv)),
+            "frac_above_half_bound": float(np.nanmean(adv > 0.5 * float(np.log(2)))),
+            "found_frac": float(np.nanmean(adv > 0)), "n": int(len(adv)),
+        },
+    }
+
+
 def run_one(dataset: str, encoder: str, seed: int, args) -> dict:
     device = torch.device(args.device)
     set_seed(seed)
@@ -177,13 +214,17 @@ def run_one(dataset: str, encoder: str, seed: int, args) -> dict:
         },
     }
     result.update(measure_correlations(model, test_batches(), args.correlation_sample))
+    if args.counterfactual:
+        result.update(measure_counterfactual(
+            model, test_batches(), args.counterfactual_sample, args))
     return result
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", default="sst")
-    ap.add_argument("--encoder", default="bilstm", choices=CONTEXTUALISATION_ORDER + ["all"])
+    ap.add_argument("--encoder", default="bilstm",
+                    choices=sorted(ENCODERS) + ["all", "ablations", "everything"])
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--epochs", type=int, default=8)
     ap.add_argument("--batch-size", type=int, default=32)
@@ -192,10 +233,20 @@ def main() -> None:
     ap.add_argument("--min-count", type=int, default=2)
     ap.add_argument("--correlation-sample", type=int, default=500)
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    ap.add_argument("--counterfactual", action="store_true",
+                    help="also run experiment 2 (permutation and adversarial attention)")
+    ap.add_argument("--counterfactual-sample", type=int, default=96)
+    ap.add_argument("--permutations", type=int, default=100)
+    ap.add_argument("--adversarial-k", type=int, default=4)
+    ap.add_argument("--adversarial-steps", type=int, default=500)
     args = ap.parse_args()
 
     RESULTS.mkdir(parents=True, exist_ok=True)
-    encoders = CONTEXTUALISATION_ORDER if args.encoder == "all" else [args.encoder]
+    encoders = {
+        "all": CONTEXTUALISATION_ORDER,
+        "ablations": ABLATIONS,
+        "everything": CONTEXTUALISATION_ORDER + ABLATIONS,
+    }.get(args.encoder, [args.encoder])
 
     for encoder in encoders:
         for seed in range(args.seeds):
