@@ -155,6 +155,16 @@ class AdditiveAttention(nn.Module):
         self.v = nn.Linear(hidden, 1, bias=False)
 
     def scores(self, h, mask):
+        # A row with no unmasked position would softmax over a vector of -inf and
+        # produce NaN, which then propagates through the gradient and quietly ruins
+        # the run. data.drop_empty removes such instances upstream; this is the
+        # tripwire that fires if one ever gets through, because a loud failure is
+        # worth far more here than a plausible-looking number.
+        if not bool((mask.sum(dim=1) > 0).all()):
+            raise ValueError(
+                "an instance has no unmasked positions: attention would be NaN. "
+                "Empty documents must be removed before batching (see data.drop_empty)"
+            )
         s = self.v(torch.tanh(self.w1(h))).squeeze(-1)     # (B, T)
         return s.masked_fill(mask == 0, float("-inf"))
 
