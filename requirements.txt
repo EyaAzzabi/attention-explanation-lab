@@ -1,0 +1,12 @@
+# Pinned to the versions this work was actually run with, so a rerun uses the
+# same bytes. Every metric in tests/ runs on CPU without a GPU.
+
+torch==2.11.0
+numpy==2.4.6
+scipy==1.17.1
+pandas==2.3.3
+scikit-learn==1.8.0
+spacy==3.8.13
+matplotlib==3.11.1
+pytest==7.4.4
+tqdm==4.67.3
