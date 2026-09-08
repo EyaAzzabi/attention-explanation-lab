@@ -108,8 +108,22 @@ def gradient_importance(
 def leave_one_out_importance(model, batch) -> np.ndarray:
     """dy_t = TVD(y(x_-t), y(x)) for every token position.
 
-    One forward pass per token, so this is the expensive measure. The paper applies
-    it at the input layer, dropping the token rather than zeroing a hidden dimension.
+    The token is **deleted from the input sequence** and the encoder is re-run on the
+    shortened text. Section 4.1 is explicit that this is done at the input layer:
+    "we do this at the input layer", removing tokens from inputs rather than erasing
+    a hidden dimension.
+
+    The distinction is not cosmetic, and getting it wrong produced a wrong result
+    here before it was caught. Zeroing the attention mask at position t leaves the
+    token in place: a BiLSTM still runs over it and it still shapes its neighbours'
+    hidden states, so what gets measured is not "what if this word were absent" but
+    "what if attention stopped looking at it". That quantity is close to monotone in
+    alpha_t by construction, and it produced tau_loo around 0.83 for every
+    contextualising encoder against the 0.06 to 0.20 the paper reports for the
+    BiLSTM on 20 Newsgroups. The number looked like a result and was an artefact of
+    the implementation.
+
+    One forward pass per token, so this is the expensive measure.
     """
     model.eval()
     base = model.predict_proba(batch.tokens, batch.mask)          # (B, C)
@@ -118,22 +132,27 @@ def leave_one_out_importance(model, batch) -> np.ndarray:
     out = np.zeros((b, t), dtype=float)
 
     for pos in range(t):
-        # An instance is eligible at this position only if it has a token there AND
-        # something would be left afterwards. Removing the only token of a
-        # single-token document leaves an all-zero mask, which is exactly the state
-        # the attention module refuses to accept, and 20 Newsgroups does contain
-        # such documents. Their leave-one-out importance is not defined, so it stays
-        # at zero and their Kendall tau comes back NaN through the min_length rule.
+        # Eligible only if there is a token here and something survives its removal.
+        # Deleting the single token of a one-token document leaves an empty input,
+        # which the attention module refuses; such instances stay unmeasured and
+        # their Kendall tau comes back NaN through the min_length rule.
         active_t = (lengths > pos) & (lengths > 1)
-        active = active_t.cpu().numpy()
-        if not active.any():
+        if not bool(active_t.any()):
             if bool((lengths <= pos).all()):
                 break
             continue
 
-        keep = batch.mask.clone()
-        keep[active_t, pos] = 0.0        # only the eligible rows lose a token
-        probs = model.predict_proba(batch.tokens, keep)
+        # Delete column `pos` and shift the tail left, for the eligible rows only.
+        tokens = batch.tokens.clone()
+        mask = batch.mask.clone()
+        tail = slice(pos + 1, t)
+        tokens[active_t, pos:t - 1] = batch.tokens[active_t, tail]
+        mask[active_t, pos:t - 1] = batch.mask[active_t, tail]
+        tokens[active_t, t - 1] = 0
+        mask[active_t, t - 1] = 0.0
+
+        probs = model.predict_proba(tokens, mask)
+        active = active_t.cpu().numpy()
         for i in range(b):
             if active[i]:
                 out[i, pos] = tvd(probs[i], base[i])
