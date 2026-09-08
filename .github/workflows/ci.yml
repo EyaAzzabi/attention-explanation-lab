@@ -15,12 +15,16 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      # The measures under test are pure numpy and scipy. Torch is needed only for
-      # the model smoke tests, and the CPU wheel keeps the job under a minute.
+
+      # The distance measures are pure numpy and scipy, but the tokenisation tests
+      # need spaCy and the corpus loader needs scikit-learn, so both are installed
+      # here. Only the blank spaCy pipeline is used, so no language model is
+      # downloaded. Torch comes from the CPU index to keep the job short.
       - name: Install
         run: |
           python -m pip install --upgrade pip
           pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install numpy scipy pytest
+          pip install numpy scipy pytest spacy scikit-learn
+
       - name: Tests
         run: python -m pytest tests/ -q
