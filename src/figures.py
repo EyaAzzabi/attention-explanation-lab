@@ -107,7 +107,7 @@ def figure_encoders(grouped, dataset: str, mode: str) -> Path:
     present, means, stds = _series(grouped, dataset, "tau_gradient")
     y = np.arange(len(present))[::-1]
 
-    fig, ax = plt.subplots(figsize=(7.6, 3.6))
+    fig, ax = plt.subplots(figsize=(8.4, 3.9))
     ax.xaxis.grid(True, linewidth=0.8)
     ax.set_axisbelow(True)
 
@@ -137,9 +137,10 @@ def figure_encoders(grouped, dataset: str, mode: str) -> Path:
     ax.set_xlabel("Kendall tau between attention weights and gradient importance")
     ax.set_xlim(0, 1)
     ax.set_ylim(-0.6, len(present) - 0.4)
-    ax.set_title("Attention agrees with gradients only when the encoder does not mix positions",
-                 fontsize=11.5, fontweight="bold", color=theme["primary"], loc="left", pad=14)
-    leg = ax.legend(loc="lower right", frameon=False, fontsize=9)
+    ax.set_title("Attention tracks gradients only without contextualisation",
+                 fontsize=12, fontweight="bold", color=theme["primary"], loc="left", pad=14)
+    leg = ax.legend(loc="center right", frameon=False, fontsize=9,
+                    bbox_to_anchor=(1.0, 0.30))
     for text in leg.get_texts():
         text.set_color(theme["secondary"])
 
@@ -159,7 +160,7 @@ def figure_two_measures(grouped, dataset: str, mode: str) -> Path:
     x = np.arange(len(present))
     offset = 0.16
 
-    fig, ax = plt.subplots(figsize=(7.6, 3.6))
+    fig, ax = plt.subplots(figsize=(8.4, 3.9))
     ax.yaxis.grid(True, linewidth=0.8)
     ax.set_axisbelow(True)
 
@@ -179,8 +180,8 @@ def figure_two_measures(grouped, dataset: str, mode: str) -> Path:
     ax.set_xticks(x, [ENCODER_LABEL[e] for e in present], fontsize=9)
     ax.set_ylabel("Kendall tau")
     ax.set_ylim(0, 1)
-    ax.set_title("The two importance measures do not tell the same story",
-                 fontsize=11.5, fontweight="bold", color=theme["primary"], loc="left", pad=14)
+    ax.set_title("The two importance measures rank the Transformer differently",
+                 fontsize=12, fontweight="bold", color=theme["primary"], loc="left", pad=14)
     leg = ax.legend(loc="upper right", frameon=False, fontsize=9)
     for text in leg.get_texts():
         text.set_color(theme["secondary"])

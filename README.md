@@ -4,7 +4,7 @@
      rag-eval-lab and daily-climate-pipeline. -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
-[![tests](https://img.shields.io/badge/tests-41%20passing-brightgreen.svg)](tests/)
+[![tests](https://img.shields.io/badge/tests-49%20passing-brightgreen.svg)](tests/)
 [![no API key](https://img.shields.io/badge/API%20key-not%20required-success.svg)](#running-it)
 
 **Jain and Wallace showed attention weights correlate weakly with feature importance
@@ -85,8 +85,8 @@ by hand.
 <!-- BEGIN GENERATED: reproduction -->
 | Dataset | Encoder | Seeds | Accuracy | tau_g (this repo) | tau_g (paper) |
 |---|---|---|---|---|---|
-| 20news | average | 1 | 0.744 | 0.740 (1 seed) | 0.79 / 0.75 |
-| 20news | bilstm | 1 | 0.780 | 0.173 (1 seed) | 0.07 / 0.21 |
+| 20news | average | 5 | 0.756 | 0.797 +/- 0.024 | 0.79 / 0.75 |
+| 20news | bilstm | 5 | 0.763 | 0.182 +/- 0.029 | 0.07 / 0.21 |
 <!-- END GENERATED: reproduction -->
 
 ### Extension: where the Transformer falls
@@ -94,27 +94,93 @@ by hand.
 <!-- BEGIN GENERATED: extension -->
 | Dataset | average | cnn | bilstm | transformer |
 |---|---|---|---|---|
-| 20news | 0.740 (1 seed) |  | 0.173 (1 seed) | 0.308 (1 seed) |
+| 20news | 0.797 +/- 0.024 | 0.244 +/- 0.013 | 0.182 +/- 0.029 | 0.293 +/- 0.056 |
 <!-- END GENERATED: extension -->
 
 ### What the numbers do not establish
 
 <!-- BEGIN GENERATED: notes -->
-- **20news**: average, bilstm, transformer ran on a single seed, so no spread is available and no ordering involving them is established.
+- **20news**: `cnn` and `transformer` overlap within one standard deviation across seeds and are reported as indistinguishable.
 <!-- END GENERATED: notes -->
 
 ---
 
-## What this does not show
+## Figure 1: the reproduction, and where the Transformer lands
 
-- Kendall's tau against gradients is not a measure of truth. The original paper says so
-  itself: it does not claim gradient importance is ground truth, only that attention
-  correlates poorly with several independent measures of it.
-- Results are on classification with unstructured output spaces. Sequence-to-sequence
-  tasks are outside this, as they were outside the original.
-- A low correlation for the Transformer would not prove its attention is meaningless.
-  It would show that the same argument the paper makes about BiLSTMs applies at least as
-  strongly to the architecture that replaced them.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/tau_by_encoder_20news_dark.png">
+  <img alt="Kendall tau between attention weights and gradient importance, by encoder, on 20 Newsgroups. Average 0.797, CNN 0.244, BiLSTM 0.182, Transformer 0.293, each with the standard deviation across five seeds. Open grey markers show the values reported in the paper for the two encoders it tested." src="figures/tau_by_encoder_20news_light.png">
+</picture>
+
+The grey rings are the paper's own numbers. Where they exist, the measurement lands
+on them: **0.797 against 0.79 / 0.75 for the average encoder, 0.182 against
+0.07 / 0.21 for the BiLSTM.** Leave-one-out reproduces too, at 0.204 against the
+paper's 0.06 / 0.20. The reproduction succeeds on both measures, which is what
+licenses reading anything into the encoder that has no grey ring.
+
+## Figure 2: the two importance measures disagree, but only about one encoder
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/two_measures_20news_dark.png">
+  <img alt="Kendall tau against gradient importance and against leave-one-out importance, per encoder. The two measures agree closely for the average encoder, the CNN and the BiLSTM, and diverge for the Transformer, where gradient gives 0.29 and leave-one-out gives 0.14." src="figures/two_measures_20news_light.png">
+</picture>
+
+## What the numbers say
+
+**The paper's headline effect is large and it replicates.** An encoder that never
+mixes positions agrees with gradient importance at 0.797. Every encoder that does
+mix falls to 0.29 or below. That gap, more than four to one, is the paper's claim
+and it is not fragile: the spread across five seeds is 0.024 at the top and 0.029
+at the bottom, so the intervals are nowhere near touching.
+
+**But the effect is not monotone in how much the encoder mixes, which is the
+explanation the paper offers.** If contextualisation alone drove the correlation
+down, the ordering would follow the amount of mixing: average, then CNN with its
+seven-token window, then BiLSTM over the sequence, then the Transformer, which
+attends to everything at every layer. It does not. On gradient importance the
+Transformer sits at 0.293, **above** the BiLSTM's 0.182, and the two intervals do
+not overlap. The BiLSTM is the low point, not the endpoint of a trend.
+
+**And the two importance measures rank the Transformer in opposite directions.**
+For three of the four encoders they agree closely: 0.80 against 0.85 for average,
+0.24 against 0.20 for the CNN, 0.18 against 0.20 for the BiLSTM. For the
+Transformer, gradient gives 0.29 and leave-one-out gives 0.14, and it moves from
+the highest of the three contextualising encoders on one measure to the lowest on
+the other.
+
+### A hypothesis, offered as a hypothesis
+
+A Transformer's residual stream keeps a direct additive path from the embedding at
+position *t* to the hidden state at position *t*. A gradient taken with respect to
+that embedding travels that path, so it stays partly aligned with whatever
+attention is doing there. Deleting the token is a different intervention: through
+self-attention it perturbs every other position at once, so the change in output is
+diffuse rather than localised at *t*. Recurrence and convolution mix less globally,
+so deletion stays more local for them and the two measures continue to agree.
+
+If that is right, the divergence should shrink when the residual connections are
+removed, and grow with depth. Neither experiment is run here, and until one is this
+paragraph is a story that fits four numbers.
+
+## What this does not establish
+
+- **One dataset, one task, one attention form.** 20 Newsgroups, binary
+  classification, additive attention. The paper spans nine corpora and three tasks.
+  SST is loaded and checksummed but not yet measured.
+- **The CNN underfits.** It reaches 0.689 accuracy against 0.75 to 0.76 for the
+  others, so its correlations describe a weaker model and are not directly
+  comparable.
+- **`cnn` and `transformer` overlap on gradient importance** within one standard
+  deviation across seeds, so they are not ranked against each other.
+- **Gradients are not ground truth.** The paper says so itself, and the argument is
+  not that attention is wrong but that it agrees poorly with several independent
+  measures of importance. A low correlation is evidence about that agreement, not
+  about what the model used.
+- **Measurement, not significance testing.** Five seeds and 300 test instances per
+  run give a spread, not a p-value on the difference between two encoders.
+
+
+---
 
 ## Running it
 

@@ -1,7 +1,7 @@
 {
   "dataset": "20news",
   "encoder": "average",
-  "seed": 0,
+  "seed": 4,
   "vocab_size": 7428,
   "corpus": {
     "name": "20news",
@@ -12,11 +12,11 @@
     "notes": "baseball=0, hockey=1; headers, footers and quotes removed; dropped 37 empty train and 23 empty test documents"
   },
   "performance": {
-    "accuracy": 0.7360931435963778,
-    "f1": 0.7559808612440192,
+    "accuracy": 0.7619663648124192,
+    "f1": 0.766497461928934,
     "n": 773
   },
-  "seconds": 11.4,
+  "seconds": 7.9,
   "config": {
     "epochs": 6,
     "batch_size": 32,
@@ -26,15 +26,15 @@
     "correlation_sample": 300
   },
   "tau_gradient": {
-    "mean": 0.8437551762782448,
-    "std": 0.06059083493269552,
-    "sig_frac": 0.9937304075235109,
+    "mean": 0.7965995899094446,
+    "std": 0.06973607083637441,
+    "sig_frac": 0.987460815047022,
     "n": 319
   },
   "tau_loo": {
-    "mean": 0.873756189149315,
-    "std": 0.06244854739188202,
-    "sig_frac": 0.9937304075235109,
+    "mean": 0.83513360208491,
+    "std": 0.09754110544906211,
+    "sig_frac": 0.9780564263322884,
     "n": 319
   },
   "instances_measured": 320

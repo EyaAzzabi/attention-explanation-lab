@@ -12,30 +12,30 @@
     "notes": "baseball=0, hockey=1; headers, footers and quotes removed; dropped 37 empty train and 23 empty test documents"
   },
   "performance": {
-    "accuracy": 0.7800776196636481,
-    "f1": 0.7921760391198044,
+    "accuracy": 0.7619663648124192,
+    "f1": 0.766497461928934,
     "n": 773
   },
-  "seconds": 21.6,
+  "seconds": 20.8,
   "config": {
-    "epochs": 3,
+    "epochs": 6,
     "batch_size": 32,
     "lr": 0.001,
     "max_len": 40,
     "min_count": 2,
-    "correlation_sample": 64
+    "correlation_sample": 300
   },
   "tau_gradient": {
-    "mean": 0.17343374160326658,
-    "std": 0.15189259763396917,
-    "sig_frac": 0.296875,
-    "n": 64
+    "mean": 0.22312794900157418,
+    "std": 0.17101662808895798,
+    "sig_frac": 0.46394984326018807,
+    "n": 319
   },
   "tau_loo": {
-    "mean": 0.7627136973791215,
-    "std": 0.08010447037324109,
-    "sig_frac": 1.0,
-    "n": 64
+    "mean": 0.21751615976849095,
+    "std": 0.16296618336170085,
+    "sig_frac": 0.4702194357366771,
+    "n": 319
   },
-  "instances_measured": 64
+  "instances_measured": 320
 }
