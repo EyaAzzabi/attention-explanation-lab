@@ -118,12 +118,21 @@ def leave_one_out_importance(model, batch) -> np.ndarray:
     out = np.zeros((b, t), dtype=float)
 
     for pos in range(t):
-        keep = batch.mask.clone()
-        keep[:, pos] = 0.0
-        # Instances shorter than pos have nothing to remove; leave them at zero.
-        active = (lengths > pos).cpu().numpy()
+        # An instance is eligible at this position only if it has a token there AND
+        # something would be left afterwards. Removing the only token of a
+        # single-token document leaves an all-zero mask, which is exactly the state
+        # the attention module refuses to accept, and 20 Newsgroups does contain
+        # such documents. Their leave-one-out importance is not defined, so it stays
+        # at zero and their Kendall tau comes back NaN through the min_length rule.
+        active_t = (lengths > pos) & (lengths > 1)
+        active = active_t.cpu().numpy()
         if not active.any():
-            break
+            if bool((lengths <= pos).all()):
+                break
+            continue
+
+        keep = batch.mask.clone()
+        keep[active_t, pos] = 0.0        # only the eligible rows lose a token
         probs = model.predict_proba(batch.tokens, keep)
         for i in range(b):
             if active[i]:

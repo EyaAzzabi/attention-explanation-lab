@@ -1,0 +1,8 @@
+{
+  "sst": {
+    "bytes": 6372817,
+    "file": "stanfordSentimentTreebank.zip",
+    "sha256": "3f5209483b46bbf129cacbbbe6ae02fe780407034f61cf6342b7833257c3f1db",
+    "url": "https://nlp.stanford.edu/~socherr/stanfordSentimentTreebank.zip"
+  }
+}

@@ -193,7 +193,17 @@ def load_sst() -> Corpus:
         test_texts=buckets[2][0], test_labels=np.array(buckets[2][1]),
         n_classes=2,
         source=SOURCES["sst"],
-        notes="neutral scores in (0.4, 0.6] dropped; positive if score > 0.6",
+        notes=(
+            "neutral scores in (0.4, 0.6] dropped; positive if score > 0.6. "
+            "KNOWN GAP: this yields 3122/3446 train and 873/876 test, against the "
+            "3034/3321 and 863/862 of the paper's Table 1, about 3 per cent more "
+            "sentences in every cell. The likely cause is sentence-to-phrase "
+            "matching in dictionary.txt, where a few sentences fail to match on "
+            "escaping and are dropped; the paper does not say how many it lost. "
+            "The gap is recorded rather than closed, because tuning the "
+            "preprocessing until the counts match would be fitting the pipeline to "
+            "the target and would make the reproduction meaningless."
+        ),
     )
 
 
