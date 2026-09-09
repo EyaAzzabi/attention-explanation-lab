@@ -16,7 +16,7 @@
     "f1": 0.6889460154241644,
     "n": 773
   },
-  "seconds": 17.2,
+  "seconds": 18.2,
   "config": {
     "epochs": 6,
     "batch_size": 32,
@@ -37,5 +37,18 @@
     "sig_frac": 0.35962145110410093,
     "n": 317
   },
-  "instances_measured": 320
+  "instances_measured": 320,
+  "permutation_tvd": {
+    "median": 0.26345549322584816,
+    "mean": 0.29990933850360324,
+    "p90": 0.5881416304036975,
+    "n": 96
+  },
+  "adversarial_jsd": {
+    "mean": 0.4481973648071289,
+    "median": 0.48475801944732666,
+    "frac_above_half_bound": 0.8854166666666666,
+    "found_frac": 0.9375,
+    "n": 96
+  }
 }

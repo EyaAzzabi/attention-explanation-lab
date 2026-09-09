@@ -1,0 +1,41 @@
+{
+  "dataset": "20news",
+  "encoder": "transformer_l1_nores",
+  "seed": 2,
+  "vocab_size": 7428,
+  "corpus": {
+    "name": "20news",
+    "train": 1160,
+    "test": 773,
+    "classes": 2,
+    "source": "sklearn.datasets.fetch_20newsgroups",
+    "notes": "baseball=0, hockey=1; headers, footers and quotes removed; dropped 37 empty train and 23 empty test documents"
+  },
+  "performance": {
+    "accuracy": 0.6610608020698577,
+    "f1": 0.6797066014669927,
+    "n": 773
+  },
+  "seconds": 27.7,
+  "config": {
+    "epochs": 6,
+    "batch_size": 32,
+    "lr": 0.001,
+    "max_len": 40,
+    "min_count": 2,
+    "correlation_sample": 300
+  },
+  "tau_gradient": {
+    "mean": 0.028467089904886177,
+    "std": 0.24671831323884286,
+    "sig_frac": 0.39184952978056425,
+    "n": 319
+  },
+  "tau_loo": {
+    "mean": -0.013671355428363454,
+    "std": 0.21424267108741146,
+    "sig_frac": 0.2601880877742947,
+    "n": 319
+  },
+  "instances_measured": 320
+}

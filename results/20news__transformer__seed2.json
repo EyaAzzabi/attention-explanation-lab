@@ -12,11 +12,11 @@
     "notes": "baseball=0, hockey=1; headers, footers and quotes removed; dropped 37 empty train and 23 empty test documents"
   },
   "performance": {
-    "accuracy": 0.7464424320827943,
-    "f1": 0.7518987341772152,
+    "accuracy": 0.7826649417852523,
+    "f1": 0.7931034482758621,
     "n": 773
   },
-  "seconds": 59.9,
+  "seconds": 98.7,
   "config": {
     "epochs": 6,
     "batch_size": 32,
@@ -26,16 +26,29 @@
     "correlation_sample": 300
   },
   "tau_gradient": {
-    "mean": 0.2922170087514034,
-    "std": 0.17576920020289002,
-    "sig_frac": 0.7115987460815048,
+    "mean": 0.32188185040236067,
+    "std": 0.14780566644422052,
+    "sig_frac": 0.7304075235109718,
     "n": 319
   },
   "tau_loo": {
-    "mean": 0.22284480673122256,
-    "std": 0.16281322130203377,
-    "sig_frac": 0.5109717868338558,
+    "mean": 0.14517292071429153,
+    "std": 0.1702136470859054,
+    "sig_frac": 0.25391849529780564,
     "n": 319
   },
-  "instances_measured": 320
+  "instances_measured": 320,
+  "permutation_tvd": {
+    "median": 0.008176726754754782,
+    "mean": 0.04448881273128791,
+    "p90": 0.1285514459013939,
+    "n": 96
+  },
+  "adversarial_jsd": {
+    "mean": 0.4384852945804596,
+    "median": 0.5386293530464172,
+    "frac_above_half_bound": 0.6354166666666666,
+    "found_frac": 1.0,
+    "n": 96
+  }
 }

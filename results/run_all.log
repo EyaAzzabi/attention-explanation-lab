@@ -135,3 +135,405 @@
   epoch 6/6  loss 0.7038
   acc 0.505  f1 0.671  tau_g nan +/- nan  -> 20news__transformer_nores__seed4.json
 ### 2/3 SST, les quatre encodeurs
+
+== sst / average / seed 0
+  epoch 1/8  loss 0.6237
+  epoch 2/8  loss 0.4777
+  epoch 3/8  loss 0.3627
+  epoch 4/8  loss 0.2735
+  epoch 5/8  loss 0.2076
+  epoch 6/8  loss 0.1534
+  epoch 7/8  loss 0.1118
+  epoch 8/8  loss 0.0797
+  acc 0.770  f1 0.781  tau_g 0.693 +/- 0.132  -> sst__average__seed0.json
+
+== sst / average / seed 1
+  epoch 1/8  loss 0.6203
+  epoch 2/8  loss 0.4821
+  epoch 3/8  loss 0.3778
+  epoch 4/8  loss 0.2819
+  epoch 5/8  loss 0.2142
+  epoch 6/8  loss 0.1590
+  epoch 7/8  loss 0.1136
+  epoch 8/8  loss 0.0781
+  acc 0.776  f1 0.779  tau_g 0.705 +/- 0.116  -> sst__average__seed1.json
+
+== sst / average / seed 2
+  epoch 1/8  loss 0.6216
+  epoch 2/8  loss 0.4814
+  epoch 3/8  loss 0.3670
+  epoch 4/8  loss 0.2762
+  epoch 5/8  loss 0.2090
+  epoch 6/8  loss 0.1536
+  epoch 7/8  loss 0.1091
+  epoch 8/8  loss 0.0893
+  acc 0.777  f1 0.781  tau_g 0.723 +/- 0.111  -> sst__average__seed2.json
+
+== sst / average / seed 3
+  epoch 1/8  loss 0.6250
+  epoch 2/8  loss 0.4804
+  epoch 3/8  loss 0.3715
+  epoch 4/8  loss 0.2790
+  epoch 5/8  loss 0.2120
+  epoch 6/8  loss 0.1559
+  epoch 7/8  loss 0.1172
+  epoch 8/8  loss 0.0865
+  acc 0.765  f1 0.770  tau_g 0.735 +/- 0.109  -> sst__average__seed3.json
+
+== sst / average / seed 4
+  epoch 1/8  loss 0.6261
+  epoch 2/8  loss 0.4820
+  epoch 3/8  loss 0.3685
+  epoch 4/8  loss 0.2787
+  epoch 5/8  loss 0.2040
+  epoch 6/8  loss 0.1495
+  epoch 7/8  loss 0.1070
+  epoch 8/8  loss 0.0737
+  acc 0.774  f1 0.774  tau_g 0.741 +/- 0.111  -> sst__average__seed4.json
+
+== sst / cnn / seed 0
+  epoch 1/8  loss 0.6297
+  epoch 2/8  loss 0.4582
+  epoch 3/8  loss 0.2660
+  epoch 4/8  loss 0.1304
+  epoch 5/8  loss 0.0473
+  epoch 6/8  loss 0.0388
+  epoch 7/8  loss 0.0294
+  epoch 8/8  loss 0.0194
+  acc 0.755  f1 0.781  tau_g 0.283 +/- 0.176  -> sst__cnn__seed0.json
+
+== sst / cnn / seed 1
+  epoch 1/8  loss 0.6251
+  epoch 2/8  loss 0.4640
+  epoch 3/8  loss 0.2814
+  epoch 4/8  loss 0.1323
+  epoch 5/8  loss 0.0463
+  epoch 6/8  loss 0.0381
+  epoch 7/8  loss 0.0208
+  epoch 8/8  loss 0.0333
+  acc 0.756  f1 0.766  tau_g 0.210 +/- 0.180  -> sst__cnn__seed1.json
+
+== sst / cnn / seed 2
+  epoch 1/8  loss 0.6321
+  epoch 2/8  loss 0.4694
+  epoch 3/8  loss 0.2874
+  epoch 4/8  loss 0.1316
+  epoch 5/8  loss 0.0588
+  epoch 6/8  loss 0.0310
+  epoch 7/8  loss 0.0228
+  epoch 8/8  loss 0.0145
+  acc 0.764  f1 0.763  tau_g 0.223 +/- 0.180  -> sst__cnn__seed2.json
+
+== sst / cnn / seed 3
+  epoch 1/8  loss 0.6305
+  epoch 2/8  loss 0.4582
+  epoch 3/8  loss 0.2780
+  epoch 4/8  loss 0.1231
+  epoch 5/8  loss 0.0464
+  epoch 6/8  loss 0.0352
+  epoch 7/8  loss 0.0194
+  epoch 8/8  loss 0.0170
+  acc 0.764  f1 0.781  tau_g 0.260 +/- 0.180  -> sst__cnn__seed3.json
+
+== sst / cnn / seed 4
+  epoch 1/8  loss 0.6272
+  epoch 2/8  loss 0.4545
+  epoch 3/8  loss 0.2835
+  epoch 4/8  loss 0.1201
+  epoch 5/8  loss 0.0618
+  epoch 6/8  loss 0.0331
+  epoch 7/8  loss 0.0195
+  epoch 8/8  loss 0.0097
+  acc 0.771  f1 0.761  tau_g 0.265 +/- 0.171  -> sst__cnn__seed4.json
+
+== sst / bilstm / seed 0
+  epoch 1/8  loss 0.6131
+  epoch 2/8  loss 0.4044
+  epoch 3/8  loss 0.2071
+  epoch 4/8  loss 0.0783
+  epoch 5/8  loss 0.0339
+  epoch 6/8  loss 0.0217
+  epoch 7/8  loss 0.0177
+  epoch 8/8  loss 0.0154
+  acc 0.782  f1 0.775  tau_g 0.267 +/- 0.181  -> sst__bilstm__seed0.json
+
+== sst / bilstm / seed 1
+  epoch 1/8  loss 0.6098
+  epoch 2/8  loss 0.4076
+  epoch 3/8  loss 0.2099
+  epoch 4/8  loss 0.0788
+  epoch 5/8  loss 0.0432
+  epoch 6/8  loss 0.0288
+  epoch 7/8  loss 0.0086
+  epoch 8/8  loss 0.0221
+  acc 0.794  f1 0.793  tau_g 0.320 +/- 0.169  -> sst__bilstm__seed1.json
+
+== sst / bilstm / seed 2
+  epoch 1/8  loss 0.6169
+  epoch 2/8  loss 0.4208
+  epoch 3/8  loss 0.2219
+  epoch 4/8  loss 0.0844
+  epoch 5/8  loss 0.0420
+  epoch 6/8  loss 0.0199
+  epoch 7/8  loss 0.0156
+  epoch 8/8  loss 0.0129
+  acc 0.774  f1 0.780  tau_g 0.319 +/- 0.173  -> sst__bilstm__seed2.json
+
+== sst / bilstm / seed 3
+  epoch 1/8  loss 0.6179
+  epoch 2/8  loss 0.4122
+  epoch 3/8  loss 0.2176
+  epoch 4/8  loss 0.0843
+  epoch 5/8  loss 0.0292
+  epoch 6/8  loss 0.0254
+  epoch 7/8  loss 0.0204
+  epoch 8/8  loss 0.0068
+  acc 0.788  f1 0.786  tau_g 0.352 +/- 0.161  -> sst__bilstm__seed3.json
+
+== sst / bilstm / seed 4
+  epoch 1/8  loss 0.6166
+  epoch 2/8  loss 0.4096
+  epoch 3/8  loss 0.2173
+  epoch 4/8  loss 0.0766
+  epoch 5/8  loss 0.0362
+  epoch 6/8  loss 0.0095
+  epoch 7/8  loss 0.0027
+  epoch 8/8  loss 0.0314
+  acc 0.801  f1 0.806  tau_g 0.308 +/- 0.176  -> sst__bilstm__seed4.json
+
+== sst / transformer / seed 0
+  epoch 1/8  loss 0.6991
+  epoch 2/8  loss 0.5467
+  epoch 3/8  loss 0.4170
+  epoch 4/8  loss 0.3204
+  epoch 5/8  loss 0.2368
+  epoch 6/8  loss 0.1764
+  epoch 7/8  loss 0.1304
+  epoch 8/8  loss 0.1132
+  acc 0.758  f1 0.778  tau_g 0.083 +/- 0.201  -> sst__transformer__seed0.json
+
+== sst / transformer / seed 1
+  epoch 1/8  loss 0.6669
+  epoch 2/8  loss 0.5622
+  epoch 3/8  loss 0.4476
+  epoch 4/8  loss 0.3504
+  epoch 5/8  loss 0.2550
+  epoch 6/8  loss 0.1983
+  epoch 7/8  loss 0.1518
+  epoch 8/8  loss 0.1141
+  acc 0.747  f1 0.727  tau_g 0.186 +/- 0.189  -> sst__transformer__seed1.json
+
+== sst / transformer / seed 2
+  epoch 1/8  loss 0.7171
+  epoch 2/8  loss 0.5637
+  epoch 3/8  loss 0.4315
+  epoch 4/8  loss 0.3222
+  epoch 5/8  loss 0.2458
+  epoch 6/8  loss 0.1885
+  epoch 7/8  loss 0.1469
+  epoch 8/8  loss 0.1241
+  acc 0.764  f1 0.768  tau_g 0.169 +/- 0.202  -> sst__transformer__seed2.json
+
+== sst / transformer / seed 3
+  epoch 1/8  loss 0.6972
+  epoch 2/8  loss 0.5651
+  epoch 3/8  loss 0.4597
+  epoch 4/8  loss 0.3684
+  epoch 5/8  loss 0.2841
+  epoch 6/8  loss 0.2077
+  epoch 7/8  loss 0.1606
+  epoch 8/8  loss 0.1244
+  acc 0.756  f1 0.760  tau_g 0.087 +/- 0.216  -> sst__transformer__seed3.json
+
+== sst / transformer / seed 4
+  epoch 1/8  loss 0.6833
+  epoch 2/8  loss 0.5505
+  epoch 3/8  loss 0.4288
+  epoch 4/8  loss 0.3246
+  epoch 5/8  loss 0.2429
+  epoch 6/8  loss 0.1838
+  epoch 7/8  loss 0.1443
+  epoch 8/8  loss 0.1258
+  acc 0.772  f1 0.768  tau_g 0.179 +/- 0.203  -> sst__transformer__seed4.json
+### 3/3 experience 2 sur 20news
+
+== 20news / average / seed 0
+  epoch 1/6  loss 0.6701
+  epoch 2/6  loss 0.4941
+  epoch 3/6  loss 0.3535
+  epoch 4/6  loss 0.2401
+  epoch 5/6  loss 0.1473
+  epoch 6/6  loss 0.0830
+  acc 0.736  f1 0.756  tau_g 0.844 +/- 0.061  -> 20news__average__seed0.json
+
+== 20news / average / seed 1
+  epoch 1/6  loss 0.6729
+  epoch 2/6  loss 0.4951
+  epoch 3/6  loss 0.3219
+  epoch 4/6  loss 0.2140
+  epoch 5/6  loss 0.1390
+  epoch 6/6  loss 0.0764
+  acc 0.772  f1 0.782  tau_g 0.787 +/- 0.074  -> 20news__average__seed1.json
+
+== 20news / average / seed 2
+  epoch 1/6  loss 0.6756
+  epoch 2/6  loss 0.5142
+  epoch 3/6  loss 0.3197
+  epoch 4/6  loss 0.1920
+  epoch 5/6  loss 0.1360
+  epoch 6/6  loss 0.0980
+  acc 0.774  f1 0.785  tau_g 0.786 +/- 0.084  -> 20news__average__seed2.json
+
+== 20news / average / seed 3
+  epoch 1/6  loss 0.6790
+  epoch 2/6  loss 0.4997
+  epoch 3/6  loss 0.3421
+  epoch 4/6  loss 0.2228
+  epoch 5/6  loss 0.1603
+  epoch 6/6  loss 0.1230
+  acc 0.736  f1 0.731  tau_g 0.773 +/- 0.076  -> 20news__average__seed3.json
+
+== 20news / average / seed 4
+  epoch 1/6  loss 0.6829
+  epoch 2/6  loss 0.5378
+  epoch 3/6  loss 0.3388
+  epoch 4/6  loss 0.2227
+  epoch 5/6  loss 0.1395
+  epoch 6/6  loss 0.0783
+  acc 0.762  f1 0.766  tau_g 0.797 +/- 0.070  -> 20news__average__seed4.json
+
+== 20news / cnn / seed 0
+  epoch 1/6  loss 0.6825
+  epoch 2/6  loss 0.4824
+  epoch 3/6  loss 0.2716
+  epoch 4/6  loss 0.0971
+  epoch 5/6  loss 0.0331
+  epoch 6/6  loss 0.0113
+  acc 0.710  f1 0.693  tau_g 0.266 +/- 0.151  -> 20news__cnn__seed0.json
+
+== 20news / cnn / seed 1
+  epoch 1/6  loss 0.6762
+  epoch 2/6  loss 0.4581
+  epoch 3/6  loss 0.2458
+  epoch 4/6  loss 0.1183
+  epoch 5/6  loss 0.0208
+  epoch 6/6  loss 0.0057
+  acc 0.687  f1 0.689  tau_g 0.227 +/- 0.139  -> 20news__cnn__seed1.json
+
+== 20news / cnn / seed 2
+  epoch 1/6  loss 0.6808
+  epoch 2/6  loss 0.4823
+  epoch 3/6  loss 0.2319
+  epoch 4/6  loss 0.0897
+  epoch 5/6  loss 0.0231
+  epoch 6/6  loss 0.0290
+  acc 0.686  f1 0.700  tau_g 0.249 +/- 0.141  -> 20news__cnn__seed2.json
+
+== 20news / cnn / seed 3
+  epoch 1/6  loss 0.6745
+  epoch 2/6  loss 0.4361
+  epoch 3/6  loss 0.2441
+  epoch 4/6  loss 0.0862
+  epoch 5/6  loss 0.0313
+  epoch 6/6  loss 0.0059
+  acc 0.675  f1 0.659  tau_g 0.241 +/- 0.144  -> 20news__cnn__seed3.json
+
+== 20news / cnn / seed 4
+  epoch 1/6  loss 0.6688
+  epoch 2/6  loss 0.4339
+  epoch 3/6  loss 0.2105
+  epoch 4/6  loss 0.0891
+  epoch 5/6  loss 0.0232
+  epoch 6/6  loss 0.0101
+  acc 0.688  f1 0.656  tau_g 0.238 +/- 0.128  -> 20news__cnn__seed4.json
+
+== 20news / bilstm / seed 0
+  epoch 1/6  loss 0.6774
+  epoch 2/6  loss 0.5107
+  epoch 3/6  loss 0.2564
+  epoch 4/6  loss 0.1233
+  epoch 5/6  loss 0.0386
+  epoch 6/6  loss 0.0247
+  acc 0.762  f1 0.766  tau_g 0.223 +/- 0.171  -> 20news__bilstm__seed0.json
+
+== 20news / bilstm / seed 1
+  epoch 1/6  loss 0.6782
+  epoch 2/6  loss 0.4954
+  epoch 3/6  loss 0.2265
+  epoch 4/6  loss 0.0864
+  epoch 5/6  loss 0.0291
+  epoch 6/6  loss 0.0086
+  acc 0.761  f1 0.756  tau_g 0.209 +/- 0.172  -> 20news__bilstm__seed1.json
+
+== 20news / bilstm / seed 2
+  epoch 1/6  loss 0.6741
+  epoch 2/6  loss 0.5029
+  epoch 3/6  loss 0.2315
+  epoch 4/6  loss 0.0760
+  epoch 5/6  loss 0.0268
+  epoch 6/6  loss 0.0096
+  acc 0.781  f1 0.790  tau_g 0.147 +/- 0.159  -> 20news__bilstm__seed2.json
+
+== 20news / bilstm / seed 3
+  epoch 1/6  loss 0.6787
+  epoch 2/6  loss 0.5013
+  epoch 3/6  loss 0.2277
+  epoch 4/6  loss 0.0779
+  epoch 5/6  loss 0.0215
+  epoch 6/6  loss 0.0324
+  acc 0.763  f1 0.767  tau_g 0.157 +/- 0.174  -> 20news__bilstm__seed3.json
+
+== 20news / bilstm / seed 4
+  epoch 1/6  loss 0.6761
+  epoch 2/6  loss 0.5016
+  epoch 3/6  loss 0.2388
+  epoch 4/6  loss 0.0804
+  epoch 5/6  loss 0.0388
+  epoch 6/6  loss 0.0123
+  acc 0.748  f1 0.760  tau_g 0.173 +/- 0.167  -> 20news__bilstm__seed4.json
+
+== 20news / transformer / seed 0
+  epoch 1/6  loss 0.8662
+  epoch 2/6  loss 0.6502
+  epoch 3/6  loss 0.5254
+  epoch 4/6  loss 0.3169
+  epoch 5/6  loss 0.1831
+  epoch 6/6  loss 0.1236
+  acc 0.759  f1 0.758  tau_g 0.207 +/- 0.144  -> 20news__transformer__seed0.json
+
+== 20news / transformer / seed 1
+  epoch 1/6  loss 0.8533
+  epoch 2/6  loss 0.6729
+  epoch 3/6  loss 0.5205
+  epoch 4/6  loss 0.3746
+  epoch 5/6  loss 0.2089
+  epoch 6/6  loss 0.1108
+  acc 0.755  f1 0.746  tau_g 0.366 +/- 0.147  -> 20news__transformer__seed1.json
+
+== 20news / transformer / seed 2
+  epoch 1/6  loss 0.9020
+  epoch 2/6  loss 0.6682
+  epoch 3/6  loss 0.5560
+  epoch 4/6  loss 0.3098
+  epoch 5/6  loss 0.1576
+  epoch 6/6  loss 0.0962
+  acc 0.783  f1 0.793  tau_g 0.322 +/- 0.148  -> 20news__transformer__seed2.json
+
+== 20news / transformer / seed 3
+  epoch 1/6  loss 0.8240
+  epoch 2/6  loss 0.6623
+  epoch 3/6  loss 0.5125
+  epoch 4/6  loss 0.2887
+  epoch 5/6  loss 0.1988
+  epoch 6/6  loss 0.0799
+  acc 0.717  f1 0.714  tau_g 0.393 +/- 0.125  -> 20news__transformer__seed3.json
+
+== 20news / transformer / seed 4
+  epoch 1/6  loss 0.8272
+  epoch 2/6  loss 0.6430
+  epoch 3/6  loss 0.4759
+  epoch 4/6  loss 0.2985
+  epoch 5/6  loss 0.1521
+  epoch 6/6  loss 0.0877
+  acc 0.735  f1 0.759  tau_g 0.291 +/- 0.160  -> 20news__transformer__seed4.json
+### FINI
